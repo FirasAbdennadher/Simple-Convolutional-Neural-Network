@@ -56,8 +56,14 @@ Then the back propogation of the convolution layer uses the following expression
 </p>
 
 ### Max pooling layer ###
+The max pooling layer picks the maximum value for each region and form a smaller matrix from the original matrix. This helps reduce the spatial dimensions while keeping the important information. How max pooling back propagates is shown below.
+
+![alt text](/images/pooling.png)
 
 ### Dropout layer ###
+Dropout is a technique used to improve overfitting on neural networks, and it should also be used together with other techniques like L2 Regularization. Usually half of the neurons are randomly shut down and back propagated only in training in order to force neurons to learn more information as before. When in predicting, no dropout should be applied. How dropout works is shwon below:
+
+![alt text](/images/dropout.jpeg)
 
 ## Code Usage
 This is only a naive layer implementation and is only used for understanding of CNN. It cannot be used for real dataset since it would be TOO SLOW. To vectorize the implementation, refer to [im2col](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/making_faster.html) to find the answer.
