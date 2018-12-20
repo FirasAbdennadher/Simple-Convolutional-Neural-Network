@@ -8,7 +8,7 @@ def fully_connected_forward(x, w, b):
             x: numpy array of image input with shape (N, d1, d2,..., dc)
             w: numpy array of weight matrix with shape (D, B)
             b: numpy array of bias with shape (B,)
-        Output:
+        Outputs:
             out: numpy array of output with shape (N, B)
             cache: tuple (x, w, b) for backprop use
     """
@@ -24,7 +24,7 @@ def fully_connected_backward(dout, cache):
         Arguments:
             dout: numpy array of gradient of output passed from next layer with shape (N, B)
             cache: tuple (x, w, b)
-        Output:
+        Outputs:
             dx: numpy array of gradient for image input with shape (N, d1, d2,..., dc)
             dw: numpy array of gradient for weight matrix with shape (D, B)
             db: numpy array of gradient for bias with shape (B,)
@@ -43,7 +43,7 @@ def relu_forward(x):
         Forward pass for the ReLU function layer.
         Arguments:
             x: numpy array of input with any shape
-        Output:
+        Outputs:
             out: numpy array of output with same shape of x
             cache: tuple (x, w, b) for backprop use
     """
@@ -77,7 +77,7 @@ def convolution_forward_naive(x, w, b, params):
             params: dictionary of convolution layer parameters
                 - 'stride': integer of stride
                 - 'pad': integer of pad
-        Output:
+        Outputs:
             out: numpy array of output with shape (N, F, Hout, Wout)
                 - Hout = 1 + (H + 2 * pad - HH) / stride
                 - Wout = 1 + (W + 2 * pad - WW) / stride
@@ -111,7 +111,7 @@ def convolution_backward_naive(dout, cache):
                 - Hout = 1 + (H + 2 * pad - HH) / stride
                 - Wout = 1 + (W + 2 * pad - WW) / stride
             cache: tuple (x, w, b, params)
-        Output:
+        Outputs:
             dx: numpy array of gradient of input image with shape (N, C, H, W)
             dw: numpy array of gradient of filters with shape (F, C, HH, WW)
             db: numpy array of gradient of bias with shape (F,)
@@ -145,7 +145,7 @@ def max_pooling_forward_naive(x, params):
                 - 'stride': integer of stride
                 - 'height': integer of max pooling region height
                 - 'width': integer of max pooling region width
-        Output:
+        Outputs:
             out: numpy array of output with shape (N, C, Hp, Wp)
                 - Hp = 1 + (H - height) / stride
                 - Wp = 1 + (W - width) / stride
@@ -192,3 +192,45 @@ def max_pooling_backward_naive(dout, cache):
                     dx[xn, cn, i * s:i * s + hh, j * s:j * s + ww] = mask * dout[xn, cn, i, j]
     return dx
 
+
+def dropout_forward(x, params):
+    """
+        Forward pass for the dropout layer.
+        Arguments:
+            x: numpy array of input with any shape
+            params: dictionary of dropout layer parameters
+                - 'p': float of dropout ratio
+                - 'mode': string of either 'train' or 'test'
+                - 'seed': seed for random dropout, None if no seed
+        Outputs:
+            out: numpy array of output with same shape of x
+            cache: tuple (x) for backprop use
+    """
+    if not params['seed']:
+        np.random.seed(params['seed'])  # set the random seed
+    if params['mode'] == 'train':
+        mask = (np.random.rand(x.shape)) / params['p']  # inverted dropout with scaling by 1/p
+        out = x * mask  # apply the mask
+    elif params['mode'] == 'test':
+        mask = None
+        out = x  # dropout is disabled when testing/predicting
+    out = out.astype(dtype=x.dtype)
+    cache = (params, mask)
+    return out, cache
+
+
+def dropout_backward(dout, cache):
+    """
+        Backward pass for the dropout layer.
+        Arguments:
+            dout: numpy array of gradient of output
+            cache: tuple (params, mask)
+        Outputs:
+            dx: numpy array of input with thea same shape as dout
+    """
+    params, mask = cache
+    if params['mode'] == 'train':
+        dx = dout * mask  # apply the mask
+    elif params['mode'] == 'test':
+        dx = dout  # dropout is disabled when testing/predicting
+    return dx
