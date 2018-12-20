@@ -65,6 +65,8 @@ Dropout is a technique used to improve overfitting on neural networks, and it sh
 
 ![alt text](/images/dropout.jpeg)
 
+Notice that in this implementation, inverted dropout, in which the mask is scaled by 1/p, is used to avoid multiplying p again in the back propagation. One can also scale the output in the backprop without inverted dropout. Here is a detailed explanation of [inverted dropout](https://pgaleone.eu/deep-learning/regularization/2017/01/10/anaysis-of-dropout/).
+
 ## Code Usage
 This is only a naive layer implementation and is only used for understanding of CNN. It cannot be used for real dataset since it would be TOO SLOW. To vectorize the implementation, refer to [im2col](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/making_faster.html) to find the answer.
 
