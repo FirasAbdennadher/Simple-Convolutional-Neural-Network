@@ -70,6 +70,8 @@ Notice that in this implementation, inverted dropout, in which the mask is scale
 ## Code Usage
 This is only a naive layer implementation and is only used for understanding of CNN. It cannot be used for real dataset since it would be TOO SLOW. To vectorize the implementation, refer to [im2col](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/making_faster.html) to find the answer.
 
+Training the model would be similar to the training in the repository [Two Layer Neural Network](https://github.com/zhangjh915/Two-Layer-Neural-Network). Since this repository is not designed to be run directly, training would not be included in this repository.
+
 ## Reference
 1. [https://www.cc.gatech.edu/classes/AY2019/cs7643_fall/hw1-q6/](https://www.cc.gatech.edu/classes/AY2019/cs7643_fall/hw1-q6/).
 2. [https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/deep_learning.html](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/deep_learning.html).
